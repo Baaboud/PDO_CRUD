@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <form action="insert.php" method="post">
+    <form action="insert.php" method="post" style="font-size: 30px;">
         <lable>Name</lable>
         <input typ=text name=name>
         <lable>Price</lable>
