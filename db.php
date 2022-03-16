@@ -15,6 +15,7 @@ class DB
         $this->password = "";
         $this->pdo = new PDO($this->dsn, $this->username, $this->password);
     }
+    // This function select valuse from table by id
     function selectById($table, $id)
     {
         $stmt = $this->pdo->prepare("select * from $table where id=?");
@@ -26,7 +27,7 @@ class DB
         }
     }
 
-
+    // This function select all valuse from table
     function selectAll($table)
     {
         $stmt = $this->pdo->prepare("select * from $table");
@@ -37,7 +38,7 @@ class DB
             return $ex;
         }
     }
-
+    // This function select valuse from multy tables and choise multy tubles and use condesion
     function select(array $tables, array $feild = null, array $valuse = null, $andOr = true)
     {
         $feildStr = $feild;
