@@ -71,13 +71,8 @@ class DB{
             return $stmt->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $ex){
             return $ex;
-
-    function select($table,$id){
-        $stmt=$this->pdo->prepare("select * from $table where id=?");
-        $stmt->execute([$id]); 
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        }
     }
-
     function add($table,$data,$type){
         $this->pdo->query("insert into $table SET ");
     }

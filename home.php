@@ -11,7 +11,7 @@ class HomePage{
 }
 
 $home=new HomePage();
-$result=$home->dbObject->select('books',$_GET['id']);
+//$result=$home->dbObject->select('books',$_GET['id']);
 
 foreach($result as $r)
 {
