@@ -92,5 +92,15 @@ class DB{
         $v = implode(',',$data);
         $this->pdo->query("insert into $table ($k) values ($v);");
     }
+
+    //delete function
+    function delete($table ,$id ){
+        $stmt=$this->pdo->prepare("delete  from $table where id=?");
+        $stmt->execute([$id]); 
+        
+      
+
+
+    }
 }
 ?>
