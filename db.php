@@ -1,11 +1,12 @@
 <?php
-class DB{
+class DB
+{
     private $dsn;
     private $username;
     private $password;
     private $database;
     private $pdo;
-    
+
     function __construct()
     {
         $this->database="php_pdo";
@@ -71,36 +72,37 @@ class DB{
             return $stmt->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $ex){
             return $ex;
-
-    function select($table,$id){
-        $stmt=$this->pdo->prepare("select * from $table where id=?");
-        $stmt->execute([$id]); 
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        }
     }
-
-    function add($table,$data,$type){
-        $this->pdo->query("insert into $table SET ");
-    }
+    // Insert function
     function insert($table,$data){
         $k = "";
         $v = "";
         $k = implode(',',array_keys($data));
         foreach ($data as $key => $value) {
             $data[$key] = "'$value'";
-
         }
         $v = implode(',',$data);
-        $this->pdo->query("insert into $table ($k) values ($v);");
+        $stmt=$this->pdo->prepare("insert into $table ($k) values ($v);");
+        $stmt->execute();
+    }
+
+    // Update function
+    function update($table,$data,$id){
+        $temp = "";
+        foreach ($data as $key => $value) {
+            $data[$value] = $key." = '$value' ";
+        }
+        $v = implode(',',$data);
+        echo "update $table set $v WHERE id = $id;";
+        $stmt=$this->pdo->prepare("update $table set $v WHERE id = $id;");
+        $stmt->execute();
     }
 
     //delete function
     function delete($table ,$id ){
         $stmt=$this->pdo->prepare("delete  from $table where id=?");
-        $stmt->execute([$id]); 
-        
-      
-
-
+        $stmt->execute([$id]);
     }
 }
 ?>
