@@ -7,14 +7,16 @@ class DB
     private $database;
     private $pdo;
 
-    function __construct($db)
+    function __construct()
     {
-        $this->database = $db;
-        $this->dsn = "mysql:host=localhost;dbname=$this->database;charset=utf8mb4";
-        $this->username = "root";
-        $this->password = "";
-        $this->pdo = new PDO($this->dsn, $this->username, $this->password);
+        $this->database="php_pdo";
+        $this->dsn="mysql:host=localhost;dbname=$this->database;charset=utf8mb4";
+        $this->username="root";
+        $this->password="";
+        $this->pdo=new PDO($this->dsn,$this->username,$this->password);
     }
+
+    // This function select valuse from table by id
     function selectById($table, $id)
     {
         $stmt = $this->pdo->prepare("select * from $table where id=?");
@@ -26,7 +28,7 @@ class DB
         }
     }
 
-
+    // This function select all valuse from table
     function selectAll($table)
     {
         $stmt = $this->pdo->prepare("select * from $table");
@@ -37,7 +39,7 @@ class DB
             return $ex;
         }
     }
-
+    // This function select valuse from multy tables and choise multy tubles and use condesion
     function select(array $tables, array $feild = null, array $valuse = null, $andOr = true)
     {
         $feildStr = $feild;
@@ -72,4 +74,35 @@ class DB
             return $ex;
         }
     }
+    // Insert function
+    function insert($table,$data){
+        $k = "";
+        $v = "";
+        $k = implode(',',array_keys($data));
+        foreach ($data as $key => $value) {
+            $data[$key] = "'$value'";
+        }
+        $v = implode(',',$data);
+        $stmt=$this->pdo->prepare("insert into $table ($k) values ($v);");
+        $stmt->execute();
+    }
+
+    // Update function
+    function update($table,$data,$id){
+        $temp = "";
+        foreach ($data as $key => $value) {
+            $data[$value] = $key." = '$value' ";
+        }
+        $v = implode(',',$data);
+        echo "update $table set $v WHERE id = $id;";
+        $stmt=$this->pdo->prepare("update $table set $v WHERE id = $id;");
+        $stmt->execute();
+    }
+
+    //delete function
+    function delete($table ,$id ){
+        $stmt=$this->pdo->prepare("delete  from $table where id=?");
+        $stmt->execute([$id]);
+    }
 }
+?>
