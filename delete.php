@@ -1,5 +1,4 @@
 <?php
-
 require('db.php');
 class viewPage{
     public $dbObject;
@@ -24,6 +23,8 @@ foreach($result as $row)
     echo $row->name." : ". $row->des;
 }
 }
+
+// delete 
 if(isset($_GET['del'])){
    
   if ($delete=$home->dbObject->delete("gatagorey",$_GET['id'])) {
@@ -35,6 +36,4 @@ if(isset($_GET['del'])){
   }
 
 }
-
-
 ?>

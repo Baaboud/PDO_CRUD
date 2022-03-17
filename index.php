@@ -1,23 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="view.php" method="get">
-    <input type=text name=id>
-    <input type=submit value="show " name="show">
+<?php
+ $dsn="mysql:host=localhost;dbname=php_pdo;charset=utf8mb4";
+ try {
+     
+     $pdo=new PDO($dsn,"root","",
+     [
+         PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_OBJ,
+         PDO::ATTR_ERRMODE=>PDO::ERRMODE_SILENT
 
-    </form> 
-    <br>
-    <h1>delete </h1>
-    <form action="view.php" method="get">
-    <input type=text name=id placeholder="id">
-    <input type=submit value="delete" name='del'  >
+        ]
+    );
+     echo "connected susccesful<br>";
+    /* $stmt=$pdo->query("select * from boks");
+     $rows=$stmt->fetchAll();
+     foreach($rows as $row){
+         echo $row->name."  ".$row->price."<br>";
+       //  echo $row['name']."<br>";
+     }*/
+    
+     $stmt=$pdo->prepare('select * from books where id=:id');
+     $stmt->execute([':id'=>$_GET['book_id']]);
+    $rows= $stmt->fetchAll();
+     foreach($rows as $row){
+         echo $row->name."<br>";
+     }
+echo "<hr/>";
+    // $stmt=$pdo->prepare('select * from books');
+     $stmt->execute([':id'=>1]);
+    $rows= $stmt->fetchAll();
+     foreach($rows as $row){
+         echo $row->name."<br>";
+     }
+     
+ }catch(PDOException $ex){
+    
 
-    </form>
-</body>
-</html>
+    echo $ex->getMessage();
+     
+
+ }
+?>
